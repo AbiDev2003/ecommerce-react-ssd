@@ -5,23 +5,16 @@ import CheckmarkIcon from "../assets/images/icons/checkmark.png";
 // import {products} from "./../../starting-code/data/products.js";
 import { useEffect, useState } from "react";
 import axios from 'axios'; 
-function HomePage() {
-  const [products, setProducts] = useState([]); 
-  const [cart, setCart] = useState([]); 
+function HomePage({cart}) {
+  const [products, setProducts] = useState([]);  
 
   useEffect(() => {
-    axios.get('http://localhost:3000/api/products')
+    axios.get('/api/products')
       .then((response) => {
         setProducts(response.data); 
       })
   }, [])
 
-  useEffect(() => {
-    axios.get('http://localhost:3000/api/cart-items')
-      .then((response) => {
-        setCart(response.data); 
-      })
-  })
   return (
     <>
       <title>Ecommerce Project</title>
