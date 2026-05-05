@@ -1,4 +1,4 @@
-import "./App.css";
+import "./index.css";
 import CheckoutPage from "./pages/checkout/CheckoutPage";
 import HomePage from "./pages/HomePage";
 import { Routes, Route } from "react-router";
@@ -12,7 +12,7 @@ function App() {
   const [cart, setCart] = useState([]); 
 
   useEffect(() => {
-    axios.get('/api/cart-items')
+    axios.get('/api/cart-items?expand=product')
       .then((response) => {
         setCart(response.data); 
       })

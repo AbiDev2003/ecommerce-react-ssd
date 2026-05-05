@@ -5,6 +5,7 @@ import CheckmarkIcon from "../assets/images/icons/checkmark.png";
 // import {products} from "./../../starting-code/data/products.js";
 import { useEffect, useState } from "react";
 import axios from 'axios'; 
+import { formatMoney } from "../utils/money.js";
 function HomePage({cart}) {
   const [products, setProducts] = useState([]);  
 
@@ -45,7 +46,7 @@ function HomePage({cart}) {
                   <div className="product-rating-count link-primary">{product.rating.count}</div>
                 </div>
 
-                <div className="product-price">${(product.priceCents / 100).toFixed(2)}</div>
+                <div className="product-price">{formatMoney(product.priceCents)}</div>
 
                 <div className="product-quantity-container">
                   <select>
