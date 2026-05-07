@@ -13,10 +13,10 @@ function Product({ product, loadCart }) {
       quantity,
     });
     await loadCart();
-    setShowAddedMessage(true); 
+    setShowAddedMessage(true);
     setTimeout(() => {
-      setShowAddedMessage(false); 
-    }, 2000)
+      setShowAddedMessage(false);
+    }, 2000);
   };
 
   const selectQuantity = (e) => {
@@ -26,7 +26,11 @@ function Product({ product, loadCart }) {
   return (
     <div className="product-container">
       <div className="product-image-container">
-        <img className="product-image" src={product.image} />
+        <img
+          className="product-image"
+          src={product.image}
+          data-testid="product-image"
+        />
       </div>
 
       <div className="product-name limit-text-to-2-lines">{product.name}</div>
@@ -35,6 +39,7 @@ function Product({ product, loadCart }) {
         <img
           className="product-rating-stars"
           src={`images/ratings/rating-${product.rating.stars * 10}.png`}
+          data-testid = 'product-rating-stars-image'
         />
         <div className="product-rating-count link-primary">
           {product.rating.count}
@@ -60,7 +65,10 @@ function Product({ product, loadCart }) {
 
       <div className="product-spacer"></div>
 
-      <div className="added-to-cart" style={{opacity: showAddedMessage ? 1: 0}}>
+      <div
+        className="added-to-cart"
+        style={{ opacity: showAddedMessage ? 1 : 0 }}
+      >
         <img src={CheckmarkIcon} />
         Added
       </div>
