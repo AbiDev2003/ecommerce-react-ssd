@@ -1,13 +1,17 @@
 import Header from "../components/Header";
-import './NotFoundPage.css';
+import "./NotFoundPage.css";
 
-function NotFoundPage() {
+function NotFoundPage({ cart, type }) {
   return (
     <>
-      <title>404 Page Not Found</title>
+      <title>
+        {type === "empty-products" ? "No items found" : "404 Page Not Found"}
+      </title>
       <link rel="icon" type="image/svg+xml" href="home-favicon.png" />
-      <Header />
-      <div className="not-found-message">Page not found</div>
+      <Header cart={cart} />
+      <div className="not-found-message">
+        {type === "empty-products" ? "Sorry 😔! Looks like no items are there" : "Page not found"}
+      </div>
     </>
   );
 }

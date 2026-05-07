@@ -1,29 +1,46 @@
 import "./index.css";
 import CheckoutPage from "./pages/checkout/CheckoutPage";
-import HomePage from "./pages/HomePage";
+import HomePage from "./pages/home/HomePage";
 import { Routes, Route } from "react-router";
-import OrdersPage from "./pages/OrdersPage";
+import OrdersPage from "./pages/orders/OrdersPage";
 import TrackingPage from "./pages/TrackingPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import { useEffect, useState } from "react";
 import axios from "axios";
+window.axios = axios;
 
 function App() {
-  const [cart, setCart] = useState([]); 
+  const [cart, setCart] = useState([]);
+
+  const loadCart = async () => {
+    const response = await axios.get("/api/cart-items?expand=product");
+    setCart(response.data);
+  };
 
   useEffect(() => {
-    axios.get('/api/cart-items?expand=product')
-      .then((response) => {
-        setCart(response.data); 
-      })
-  })
+    loadCart();
+  }, []);
+
   return (
     <Routes>
-      <Route path="/" element={<HomePage cart={cart}/>}></Route>
-      <Route path="checkout" element={<CheckoutPage cart={cart}/>}></Route>
-      <Route path="orders" element={<OrdersPage cart={cart} />}></Route>
-      <Route path="tracking" element={<TrackingPage />}></Route>
-      <Route path="*" element={<NotFoundPage />}></Route>
+      <Route
+        index
+        element={<HomePage cart={cart} loadCart={loadCart} />}
+      ></Route>
+      <Route
+        path="checkout"
+        element={<CheckoutPage cart={cart} loadCart={loadCart} />}
+      ></Route>
+      <Route
+        path="orders"
+        element={<OrdersPage cart={cart} loadCart={loadCart} />}
+      ></Route>
+      <Route path="tracking" element={<TrackingPage cart={cart} />}></Route>
+      <Route path="*" element={<NotFoundPage cart={cart} type="404" />}></Route>
+      <Route
+        path="tracking/:orderId/:productId"
+        element={<TrackingPage cart={cart} />}
+      />
     </Routes>
   );
 }

@@ -1,14 +1,40 @@
-import { NavLink } from 'react-router';
-import './Header.css';
-import CartIcon from '../assets/images/icons/cart-icon.png';
-import SearchIcon from '../assets/images/icons/search-icon.png';
-import LogoWhite from '../assets/images/logo-white.png';
-import MobileLogoWhite from '../assets/images/mobile-logo-white.png';
-function Header({cart}) {
-  let totalQuantity = 0; 
-  cart.forEach(cartItem => (
-    totalQuantity += cartItem.quantity
-  ))
+import { NavLink, useNavigate, useSearchParams } from "react-router";
+import "./Header.css";
+import CartIcon from "../assets/images/icons/cart-icon.png";
+import SearchIcon from "../assets/images/icons/search-icon.png";
+import LogoWhite from "../assets/images/logo-white.png";
+import MobileLogoWhite from "../assets/images/mobile-logo-white.png";
+import { useState } from "react";
+function Header({ cart }) {
+  const [searchParams] = useSearchParams();
+  const searchText = searchParams.get("search");
+  const [search, setSearch] = useState(searchText || "");
+
+  const navigate = useNavigate();
+
+  const updateSearchInput = (e) => {
+    const searchInput = e.target.value;  
+    setSearch(searchInput);
+  };
+
+  const searchProducts = () => {
+    if(!search || search === '') return; 
+    navigate(`/?search=${search}`);
+  };
+
+  function handleSearchKeyDown(e) {
+    const keyPressed = e.key;
+
+    if (keyPressed === "Enter") {
+      searchProducts(); 
+    } else if (keyPressed === "Escape") {
+      setSearch(""); 
+    }
+  }
+
+  let totalQuantity = 0;
+  cart.forEach((cartItem) => (totalQuantity += cartItem.quantity));
+
   return (
     <>
       <div className="header">
@@ -20,9 +46,16 @@ function Header({cart}) {
         </div>
 
         <div className="middle-section">
-          <input className="search-bar" type="text" placeholder="Search" />
+          <input
+            className="search-bar"
+            type="text"
+            placeholder="Search"
+            value={search}
+            onChange={updateSearchInput}
+            onKeyDown={handleSearchKeyDown}
+          />
 
-          <button className="search-button">
+          <button className="search-button" onClick={searchProducts}>
             <img className="search-icon" src={SearchIcon} />
           </button>
         </div>
