@@ -39,7 +39,7 @@ function Product({ product, loadCart }) {
         <img
           className="product-rating-stars"
           src={`images/ratings/rating-${product.rating.stars * 10}.png`}
-          data-testid = 'product-rating-stars-image'
+          data-testid="product-rating-stars-image"
         />
         <div className="product-rating-count link-primary">
           {product.rating.count}
@@ -73,7 +73,11 @@ function Product({ product, loadCart }) {
         Added
       </div>
 
-      <button className="add-to-cart-button button-primary" onClick={addToCart}>
+      <button
+        data-testid="add-to-cart-button"
+        className="add-to-cart-button button-primary"
+        onClick={addToCart}
+      >
         Add to Cart
       </button>
     </div>
