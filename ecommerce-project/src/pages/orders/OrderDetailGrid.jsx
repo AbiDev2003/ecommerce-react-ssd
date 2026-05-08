@@ -22,7 +22,7 @@ function OrderDetailGrid({ order, loadCart }) {
             <div className="product-image-container">
               <img src={orderProduct.product.image} />
             </div>
-            <div className="product-details">
+            <div className="product-details" data-testid="order-product-details">
               <div className="product-name">{orderProduct.product.name}</div>
               <div className="product-delivery-date">
                 Arriving on:{" "}

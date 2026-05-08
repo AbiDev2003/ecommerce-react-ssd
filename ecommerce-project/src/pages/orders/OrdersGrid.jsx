@@ -6,7 +6,7 @@ function OrdersGrid({orders, loadCart}) {
     <div className="orders-grid">
       {orders.map((order) => {
         return (
-          <div key={order.id} className="order-container">
+          <div key={order.id} className="order-container" data-testid="order-container">
             <OrderHeader order={order} />
             <OrderDetailGrid order={order} loadCart={loadCart}/>
           </div>
