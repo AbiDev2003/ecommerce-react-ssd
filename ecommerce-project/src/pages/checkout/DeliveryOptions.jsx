@@ -1,12 +1,15 @@
 import dayjs from "dayjs";
 import { formatMoney } from "../../utils/money";
 import axios from "axios";
+import utc from "dayjs/plugin/utc"
+
+dayjs.extend(utc);
 
 function DeliveryOptions({ deliveryOptions, cartItem, loadCart }) {
   return (
     <div className="delivery-options">
       <div className="delivery-options-title">Choose a delivery option:</div>
-      { deliveryOptions.map((deliveryOption) => {
+      {deliveryOptions.map((deliveryOption) => {
         let priceString = "FREE Shipping";
 
         if (deliveryOption.priceCents > 0) {
@@ -24,6 +27,7 @@ function DeliveryOptions({ deliveryOptions, cartItem, loadCart }) {
           <div
             key={deliveryOption.id}
             className="delivery-option"
+            data-testid="delivery-option"
             onClick={updateDeliveryOptions}
           >
             <input
@@ -32,11 +36,12 @@ function DeliveryOptions({ deliveryOptions, cartItem, loadCart }) {
               className="delivery-option-input"
               onChange={() => {}}
               name={`delivery-option-${cartItem.productId}`}
+              data-testid="delivery-option-input"
             />
             <div>
               <div className="delivery-option-date">
-                {dayjs(deliveryOption.estimatedDeliveryTimeMs).format(
-                  "dddd, MMMM, D",
+                {dayjs.utc(deliveryOption.estimatedDeliveryTimeMs).format(
+                  "dddd, MMMM D",
                 )}
               </div>
               <div className="delivery-option-price">{priceString}</div>
