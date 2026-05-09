@@ -1,4 +1,4 @@
-export function formatMoney(amountCents) {
+export function formatMoney(amountCents: number) {
   //     if (amountCents < 0) {
   //     // There are several ways to solve this. This is one example:
   //     // - Switch the negative number to positive using * -1.

@@ -5,14 +5,23 @@ import SearchIcon from "../assets/images/icons/search-icon.png";
 import LogoWhite from "../assets/images/logo-white.png";
 import MobileLogoWhite from "../assets/images/mobile-logo-white.png";
 import { useState } from "react";
-function Header({ cart }) {
+
+type HeaderProps = {
+  cart: {
+    productId: string;
+    quantity: number;
+    deliveryOptionId: string;
+  }[];
+};
+
+function Header({ cart }: HeaderProps) {
   const [searchParams] = useSearchParams();
   const searchText = searchParams.get("search");
   const [search, setSearch] = useState(searchText || "");
 
   const navigate = useNavigate();
 
-  const updateSearchInput = (e) => {
+  const updateSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchInput = e.target.value;
     setSearch(searchInput);
   };
@@ -22,7 +31,7 @@ function Header({ cart }) {
     navigate(`/?search=${search}`);
   };
 
-  function handleSearchKeyDown(e) {
+  function handleSearchKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     const keyPressed = e.key;
 
     if (keyPressed === "Enter") {
@@ -60,17 +69,29 @@ function Header({ cart }) {
             onKeyDown={handleSearchKeyDown}
           />
 
-          <button className="search-button" data-testid="header-search-button" onClick={searchProducts}>
+          <button
+            className="search-button"
+            data-testid="header-search-button"
+            onClick={searchProducts}
+          >
             <img className="search-icon" src={SearchIcon} />
           </button>
         </div>
 
         <div className="right-section">
-          <NavLink className="orders-link header-link" to="/orders" data-testid="header-orders-link">
+          <NavLink
+            className="orders-link header-link"
+            to="/orders"
+            data-testid="header-orders-link"
+          >
             <span className="orders-text">Orders</span>
           </NavLink>
 
-          <NavLink className="cart-link header-link" to="/checkout" data-testid="header-cart-link">
+          <NavLink
+            className="cart-link header-link"
+            to="/checkout"
+            data-testid="header-cart-link"
+          >
             <img className="cart-icon" src={CartIcon} />
             <div className="cart-quantity">{totalQuantity}</div>
             <div className="cart-text">Cart</div>
