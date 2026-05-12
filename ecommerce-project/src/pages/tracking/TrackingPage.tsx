@@ -1,14 +1,36 @@
 import { Link, useParams } from "react-router";
 import "./TrackingPage.css";
-import Header from "../components/Header";
+import Header from './../../components/Header.tsx';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
 
-function TrackingPage({ cart }) {
-  const { orderId, productId } = useParams();
-  // console.log(orderId, productId);
-  const [order, setOrder] = useState(null);
+type TrackingPageProps = {
+  cart: any[];
+};
+
+type OrderProduct = {
+  productId: string;
+  estimatedDeliveryTimeMs: number;
+  quantity: number;
+  product: {
+    name: string;
+    image: string;
+  };
+};
+
+type Order = {
+  orderTimeMs: number;
+  products: OrderProduct[];
+};
+
+function TrackingPage({ cart }: TrackingPageProps) {
+  const { orderId, productId } = useParams<{
+    orderId: string;
+    productId: string;
+  }>();
+
+  const [order, setOrder] = useState<Order | null>(null);
 
   useEffect(() => {
     const fetchTrackingData = async () => {
@@ -22,10 +44,11 @@ function TrackingPage({ cart }) {
 
   if (!order) return null;
 
-  // console.log(order);
   const orderProduct = order.products.find((orderProduct) => {
     return orderProduct.productId === productId;
   });
+
+  if(!orderProduct) return null; 
 
   const totalDeliveryTimeMs =
     orderProduct.estimatedDeliveryTimeMs - order.orderTimeMs;
@@ -36,13 +59,6 @@ function TrackingPage({ cart }) {
     deliveryPercent = (timePassedMs / totalDeliveryTimeMs) * 100;
   }
 
-  // console.log({
-  //   estimatedDeliveryTimeMs: orderProduct.estimatedDeliveryTimeMs,
-  //   orderTimeMs: order.orderTimeMs,
-  //   totalDeliveryTimeMs,
-  // });
-  // console.log(deliveryPercent); 
-  
   if (deliveryPercent > 100) deliveryPercent = 100;
 
   const isPreparing = deliveryPercent < 33;
@@ -62,7 +78,7 @@ function TrackingPage({ cart }) {
           </Link>
 
           <div className="delivery-date">
-            {isDelivered ? `Delivered on ${' '}` : `Arriving on ${` `}`}
+            {isDelivered ? `Delivered on ${" "}` : `Arriving on ${` `}`}
             {dayjs(orderProduct.estimatedDeliveryTimeMs).format("dddd, MMMM D")}
           </div>
 
@@ -78,9 +94,7 @@ function TrackingPage({ cart }) {
             >
               Preparing
             </div>
-            <div
-              className={`progress-label ${isShipped && "current-status"}`}
-            >
+            <div className={`progress-label ${isShipped && "current-status"}`}>
               Shipped
             </div>
             <div

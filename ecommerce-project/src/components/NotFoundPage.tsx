@@ -1,7 +1,12 @@
-import Header from "../components/Header";
+import Header from "./Header";
 import "./NotFoundPage.css";
 
-function NotFoundPage({ cart, type }) {
+
+type NotFoundPageProps = {
+  cart: any[], 
+  type?: string 
+}; 
+function NotFoundPage({ cart, type }: NotFoundPageProps) {
   return (
     <>
       <title>

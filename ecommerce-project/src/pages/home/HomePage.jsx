@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import ProductsGrid from "./ProductsGrid.jsx";
 import { useSearchParams } from "react-router";
-import NotFoundPage from "../NotFoundPage.jsx";
+import NotFoundPage from "../../components/NotFoundPage.js";
 
 function HomePage({ cart, loadCart }) {
   const [products, setProducts] = useState([]);
