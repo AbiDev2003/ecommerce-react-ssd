@@ -1,11 +1,22 @@
 import dayjs from "dayjs";
 import { formatMoney } from "../../utils/money";
 import axios from "axios";
-import utc from "dayjs/plugin/utc"
+import utc from "dayjs/plugin/utc";
+import type { CartItem, DeliveryOption } from "../../types/ecommerce";
 
 dayjs.extend(utc);
 
-function DeliveryOptions({ deliveryOptions, cartItem, loadCart }) {
+type DeliveryOptionsProps = {
+  cartItem: CartItem;
+  loadCart: () => Promise<void>;
+  deliveryOptions: DeliveryOption[];
+};
+
+function DeliveryOptions({
+  deliveryOptions,
+  cartItem,
+  loadCart,
+}: DeliveryOptionsProps) {
   return (
     <div className="delivery-options">
       <div className="delivery-options-title">Choose a delivery option:</div>
@@ -16,11 +27,11 @@ function DeliveryOptions({ deliveryOptions, cartItem, loadCart }) {
           priceString = `${formatMoney(deliveryOption.priceCents)} - Shipping`;
         }
 
-        const updateDeliveryOptions = async () => {
+        const updateDeliveryOption = async () => {
           await axios.put(`/api/cart-items/${cartItem.productId}`, {
             deliveryOptionId: deliveryOption.id,
           });
-          loadCart();
+          await loadCart();
         };
 
         return (
@@ -28,7 +39,7 @@ function DeliveryOptions({ deliveryOptions, cartItem, loadCart }) {
             key={deliveryOption.id}
             className="delivery-option"
             data-testid="delivery-option"
-            onClick={updateDeliveryOptions}
+            onClick={updateDeliveryOption}
           >
             <input
               type="radio"
@@ -40,9 +51,9 @@ function DeliveryOptions({ deliveryOptions, cartItem, loadCart }) {
             />
             <div>
               <div className="delivery-option-date">
-                {dayjs.utc(deliveryOption.estimatedDeliveryTimeMs).format(
-                  "dddd, MMMM D",
-                )}
+                {dayjs
+                  .utc(deliveryOption.estimatedDeliveryTimeMs)
+                  .format("dddd, MMMM D")}
               </div>
               <div className="delivery-option-price">{priceString}</div>
             </div>

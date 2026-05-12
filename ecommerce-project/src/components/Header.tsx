@@ -5,13 +5,10 @@ import SearchIcon from "../assets/images/icons/search-icon.png";
 import LogoWhite from "../assets/images/logo-white.png";
 import MobileLogoWhite from "../assets/images/mobile-logo-white.png";
 import { useState } from "react";
+import type { CartItem } from "../types/ecommerce";
 
 type HeaderProps = {
-  cart: {
-    productId: string;
-    quantity: number;
-    deliveryOptionId: string;
-  }[];
+  cart: CartItem[];
 };
 
 function Header({ cart }: HeaderProps) {

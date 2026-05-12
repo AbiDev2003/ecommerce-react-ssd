@@ -1,9 +1,10 @@
+import type { CartItem } from "../types/ecommerce";
 import Header from "./Header";
 import "./NotFoundPage.css";
 
 
 type NotFoundPageProps = {
-  cart: any[], 
+  cart: CartItem[], 
   type?: string 
 }; 
 function NotFoundPage({ cart, type }: NotFoundPageProps) {

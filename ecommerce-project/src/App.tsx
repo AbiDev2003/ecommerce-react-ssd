@@ -7,12 +7,13 @@ import TrackingPage from "./pages/tracking/TrackingPage";
 import NotFoundPage from "./components/NotFoundPage";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import type { CartItem } from "./types/ecommerce";
 // window.axios = axios;
 
 function App() {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState<CartItem[]>([]);
 
-  const loadCart = async () => {
+  const loadCart = async (): Promise<void> => {
     const response = await axios.get("/api/cart-items?expand=product");
     setCart(response.data);
   };
@@ -35,12 +36,11 @@ function App() {
         path="orders"
         element={<OrdersPage cart={cart} loadCart={loadCart} />}
       ></Route>
-      <Route path="tracking" element={<TrackingPage cart={cart} />}></Route>
-      <Route path="*" element={<NotFoundPage cart={cart} type="404" />}></Route>
       <Route
         path="tracking/:orderId/:productId"
         element={<TrackingPage cart={cart} />}
       />
+      <Route path="*" element={<NotFoundPage cart={cart} type="404" />}></Route>
     </Routes>
   );
 }

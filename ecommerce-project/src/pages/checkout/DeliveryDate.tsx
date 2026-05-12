@@ -1,6 +1,12 @@
 import dayjs from "dayjs";
+import type { DeliveryOption } from "../../types/ecommerce";
 
-function DeliveryDate({selectedDeliveryOption}) {
+type DeliveryDateProps = {
+  selectedDeliveryOption?:DeliveryOption; 
+}
+
+function DeliveryDate({selectedDeliveryOption}: DeliveryDateProps) {
+  if(!selectedDeliveryOption) return null; 
   return (
     <div className="delivery-date">
       Delivery date:{" "}

@@ -1,8 +1,14 @@
 import axios from "axios";
 import { formatMoney } from "../../utils/money";
 import { useNavigate } from "react-router";
+import type { PaymentSummary } from "../../types/ecommerce";
 
-function PaymentSummery({ paymentSummery, loadCart }) {
+type PaymentSummeryProps = {
+  loadCart: () => Promise<void>;
+  paymentSummery: PaymentSummary | null;
+};
+
+function PaymentSummery({ paymentSummery, loadCart }: PaymentSummeryProps) {
   const navigate = useNavigate();
 
   const createOrder = async () => {
@@ -17,35 +23,50 @@ function PaymentSummery({ paymentSummery, loadCart }) {
 
       {paymentSummery && (
         <>
-          <div className="payment-summary-row" data-testid="payment-summary-product-cost">
+          <div
+            className="payment-summary-row"
+            data-testid="payment-summary-product-cost"
+          >
             <div>Items ({paymentSummery.totalItems}):</div>
             <div className="payment-summary-money">
               {formatMoney(paymentSummery.productCostCents)}
             </div>
           </div>
 
-          <div className="payment-summary-row" data-testid="payment-summary-shipping-cost">
+          <div
+            className="payment-summary-row"
+            data-testid="payment-summary-shipping-cost"
+          >
             <div>Shipping &amp; handling:</div>
             <div className="payment-summary-money">
               {formatMoney(paymentSummery.shippingCostCents)}
             </div>
           </div>
 
-          <div className="payment-summary-row subtotal-row" data-testid="payment-summary-total-before-tax">
+          <div
+            className="payment-summary-row subtotal-row"
+            data-testid="payment-summary-total-before-tax"
+          >
             <div>Total before tax:</div>
             <div className="payment-summary-money">
               {formatMoney(paymentSummery.totalCostBeforeTaxCents)}
             </div>
           </div>
 
-          <div className="payment-summary-row" data-testid="payment-summary-tax">
+          <div
+            className="payment-summary-row"
+            data-testid="payment-summary-tax"
+          >
             <div>Estimated tax (10%):</div>
             <div className="payment-summary-money">
               {formatMoney(paymentSummery.taxCents)}
             </div>
           </div>
 
-          <div className="payment-summary-row total-row" data-testid="payment-summary-total">
+          <div
+            className="payment-summary-row total-row"
+            data-testid="payment-summary-total"
+          >
             <div>Order total:</div>
             <div className="payment-summary-money">
               {formatMoney(paymentSummery.totalCostCents)}

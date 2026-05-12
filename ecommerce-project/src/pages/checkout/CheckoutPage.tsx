@@ -4,11 +4,17 @@ import CheckoutHeader from "./CheckoutHeader";
 import "./CheckoutPage.css";
 import OrderSummery from "./OrderSummery";
 import PaymentSummery from "./PaymentSummery";
+import type {CartItem, DeliveryOption, PaymentSummary} from '../../types/ecommerce'
 // import './../../index.css';
 
-function CheckoutPage({ cart, loadCart }) {
-  const [deliveryOptions, setDeliveryOptions] = useState([]);
-  const [paymentSummery, setPaymentSummery] = useState([]);
+type CheckoutPageProps = {
+  cart: CartItem[]; 
+  loadCart: () => Promise<void>; 
+}
+
+function CheckoutPage({ cart, loadCart }: CheckoutPageProps) {
+  const [deliveryOptions, setDeliveryOptions] = useState<DeliveryOption[]>([]);
+  const [paymentSummery, setPaymentSummery] = useState<PaymentSummary | null>(null);
 
   useEffect(() => {
     const fetchCheckoutData = async () => {
@@ -27,12 +33,6 @@ function CheckoutPage({ cart, loadCart }) {
     };
     fetchPaymentSummery();
   }, [cart]);
-
-  // useEffect(() => {
-  //   axios.get("/api/payment-summary").then((response) => {
-  //     setPaymentSummery(response.data);
-  //   });
-  // }, []);
 
   return (
     <>
