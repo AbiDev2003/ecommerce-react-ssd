@@ -10,6 +10,10 @@ export type Product = {
   name: string;
   image: string;
   priceCents: number;
+  rating: {
+    stars: number; 
+    count: number; 
+  }
 };
 
 export type OrderProduct = {

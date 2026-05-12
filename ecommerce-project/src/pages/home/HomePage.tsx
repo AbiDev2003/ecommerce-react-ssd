@@ -1,14 +1,19 @@
-// import "./header.css";
 import "./HomePage.css";
-import Header from "../../components/Header.jsx";
+import Header from "../../components/Header";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import ProductsGrid from "./ProductsGrid.jsx";
+import ProductsGrid from "./ProductsGrid";
 import { useSearchParams } from "react-router";
-import NotFoundPage from "../../components/NotFoundPage.js";
+import NotFoundPage from "../../components/NotFoundPage";
+import type { CartItem, Product } from "../../types/ecommerce";
 
-function HomePage({ cart, loadCart }) {
-  const [products, setProducts] = useState([]);
+type HomePageProps = {
+  cart: CartItem[];
+  loadCart: () => Promise<void>;
+};
+
+function HomePage({ cart, loadCart }: HomePageProps) {
+  const [products, setProducts] = useState<Product[]>([]);
   const [searchParams] = useSearchParams();
   const search = searchParams.get("search");
 
@@ -17,7 +22,7 @@ function HomePage({ cart, loadCart }) {
       const urlPath = search
         ? `/api/products?search=${search}`
         : "/api/products";
-      const response = await axios.get(urlPath);
+      const response = await axios.get<Product[]>(urlPath);
       setProducts(response.data);
     };
 

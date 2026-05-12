@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useState, type ChangeEvent } from "react";
 import { formatMoney } from "../../utils/money";
 import CheckmarkIcon from "./../../assets/images/icons/checkmark.png";
 import axios from "axios";
+import type { Product } from "../../types/ecommerce";
 
-function Product({ product, loadCart }) {
+type ProductCardProps = {
+  product: Product;
+  loadCart: () => Promise<void>;
+};
+
+function ProductCard({ product, loadCart }: ProductCardProps) {
   const [quantity, setQuantity] = useState(1);
   const [showAddedMessage, setShowAddedMessage] = useState(false);
 
@@ -19,16 +25,17 @@ function Product({ product, loadCart }) {
     }, 2000);
   };
 
-  const selectQuantity = (e) => {
+  const selectQuantity = (e: ChangeEvent<HTMLSelectElement>) => {
     const quantitySelected = Number(e.target.value);
     setQuantity(quantitySelected);
   };
   return (
-    <div className="product-container" data-testid = "product-container">
+    <div className="product-container" data-testid="product-container">
       <div className="product-image-container">
         <img
           className="product-image"
           src={product.image}
+          alt="product-image"
           data-testid="product-image"
         />
       </div>
@@ -39,6 +46,7 @@ function Product({ product, loadCart }) {
         <img
           className="product-rating-stars"
           src={`images/ratings/rating-${product.rating.stars * 10}.png`}
+          alt="product-rating-stars"
           data-testid="product-rating-stars-image"
         />
         <div className="product-rating-count link-primary">
@@ -49,7 +57,11 @@ function Product({ product, loadCart }) {
       <div className="product-price">{formatMoney(product.priceCents)}</div>
 
       <div className="product-quantity-container">
-        <select value={quantity} onChange={selectQuantity} data-testid="product-quantity-selector">
+        <select
+          value={quantity}
+          onChange={selectQuantity}
+          data-testid="product-quantity-selector"
+        >
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -69,7 +81,7 @@ function Product({ product, loadCart }) {
         className="added-to-cart"
         style={{ opacity: showAddedMessage ? 1 : 0 }}
       >
-        <img src={CheckmarkIcon} />
+        <img src={CheckmarkIcon} alt="checkmark-icon" />
         Added
       </div>
 
@@ -84,4 +96,4 @@ function Product({ product, loadCart }) {
   );
 }
 
-export default Product;
+export default ProductCard;
