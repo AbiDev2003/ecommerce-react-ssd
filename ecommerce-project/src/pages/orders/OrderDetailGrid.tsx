@@ -3,8 +3,14 @@ import BuyAgainIcon from "./../../assets/images/icons/buy-again.png";
 import { Fragment } from "react";
 import { Link } from "react-router";
 import axios from "axios";
+import type { Order } from "../../types/ecommerce";
 
-function OrderDetailGrid({ order, loadCart }) {
+type OrderDetailsGridProps = {
+  order: Order; 
+  loadCart: () => Promise<void>; 
+}
+
+function OrderDetailGrid({ order, loadCart }: OrderDetailsGridProps) {
   return (
     <div className="order-details-grid">
       {order.products.map((orderProduct) => {
@@ -20,7 +26,7 @@ function OrderDetailGrid({ order, loadCart }) {
         return (
           <Fragment key={orderProduct.product.id}>
             <div className="product-image-container">
-              <img src={orderProduct.product.image} />
+              <img src={orderProduct.product.image} alt="order item image"/>
             </div>
             <div className="product-details" data-testid="order-product-details">
               <div className="product-name">{orderProduct.product.name}</div>

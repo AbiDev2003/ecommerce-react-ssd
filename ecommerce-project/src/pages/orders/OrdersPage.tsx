@@ -1,12 +1,17 @@
-import { Link } from "react-router";
 import Header from "../../components/Header";
 import "./OrdersPage.css";
-import { Fragment, useEffect, useState } from "react";
+import {useEffect, useState } from "react";
 import axios from "axios";
 import OrdersGrid from "./OrdersGrid";
+import type { Order } from "../../types/ecommerce";
 
-function OrdersPage({ cart, loadCart }) {
-  const [orders, setOrders] = useState([]);
+type OrdersPageProps = {
+  cart: any[];
+  loadCart: () => Promise<void>;
+}
+
+function OrdersPage({ cart, loadCart }: OrdersPageProps) {
+  const [orders, setOrders] = useState<Order[]>([]);
 
   useEffect(() => {
     const fetchOrderPageData = async () => {

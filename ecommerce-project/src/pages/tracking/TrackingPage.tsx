@@ -1,28 +1,14 @@
 import { Link, useParams } from "react-router";
 import "./TrackingPage.css";
-import Header from './../../components/Header.tsx';
+import Header from './../../components/Header';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
+import type { Order } from "../../types/ecommerce";
 
 type TrackingPageProps = {
-  cart: any[];
-};
-
-type OrderProduct = {
-  productId: string;
-  estimatedDeliveryTimeMs: number;
-  quantity: number;
-  product: {
-    name: string;
-    image: string;
-  };
-};
-
-type Order = {
-  orderTimeMs: number;
-  products: OrderProduct[];
-};
+  cart: any[]; 
+}
 
 function TrackingPage({ cart }: TrackingPageProps) {
   const { orderId, productId } = useParams<{
@@ -78,7 +64,7 @@ function TrackingPage({ cart }: TrackingPageProps) {
           </Link>
 
           <div className="delivery-date">
-            {isDelivered ? `Delivered on ${" "}` : `Arriving on ${` `}`}
+            {isDelivered ? "Delivered on " : "Arriving on "}
             {dayjs(orderProduct.estimatedDeliveryTimeMs).format("dddd, MMMM D")}
           </div>
 
@@ -86,7 +72,7 @@ function TrackingPage({ cart }: TrackingPageProps) {
 
           <div className="product-info">Quantity: {orderProduct.quantity}</div>
 
-          <img className="product-image" src={orderProduct.product.image} />
+          <img className="product-image" src={orderProduct.product.image} alt="product image" />
 
           <div className="progress-labels-container">
             <div
