@@ -33,6 +33,23 @@ The application provides product browsing, cart management, checkout, order hand
 ## Architecture
 
 ```mermaid
+%%{init: {
+  "theme": "base",
+  "themeVariables": {
+    "background": "#0b0f19",
+    "primaryColor": "#111827",
+    "primaryTextColor": "#ffffff",
+    "primaryBorderColor": "#ffffff",
+    "lineColor": "#ffffff",
+    "secondaryColor": "#111827",
+    "tertiaryColor": "#111827",
+    "clusterBkg": "#0f172a",
+    "clusterBorder": "#ffffff",
+    "fontFamily": "Inter, sans-serif",
+    "edgeLabelBackground": "#0b0f19"
+  }
+}}%%
+
 flowchart TD
 
 subgraph group_backend["Backend API"]
@@ -86,56 +103,37 @@ node_backend_routes_summary -->|"reads"| node_backend_state
 node_backend_routes_summary -->|"uses"| node_backend_models
 node_backend_routes_reset -->|"loads"| node_backend_defaults
 node_backend_routes_reset -->|"overwrites"| node_backend_state
+
 node_frontend_app -->|"composes"| node_frontend_header
 node_frontend_app -->|"routes to"| node_frontend_home
 node_frontend_app -->|"routes to"| node_frontend_checkout
 node_frontend_app -->|"routes to"| node_frontend_orders
 node_frontend_app -->|"routes to"| node_frontend_tracking
 node_frontend_app -->|"uses"| node_frontend_money
+
 node_frontend_home -->|"fetches"| node_backend_routes_products
 node_frontend_home -->|"renders"| node_frontend_public_images
+
 node_frontend_checkout -->|"fetches"| node_backend_routes_cart
 node_frontend_checkout -->|"fetches"| node_backend_routes_delivery
 node_frontend_checkout -->|"fetches"| node_backend_routes_summary
 node_frontend_checkout -->|"submits"| node_backend_routes_orders
+
 node_frontend_orders -->|"fetches"| node_backend_routes_orders
 node_frontend_tracking -->|"fetches"| node_backend_routes_orders
+
 node_legacy_app -->|"composes"| node_legacy_pages
 node_legacy_app -->|"uses"| node_legacy_money
 
-click node_backend_server "https://github.com/abidev2003/ecommerce-react-ssd/blob/main/ecommerce-backend-ai-main/server.js"
-click node_backend_routes_products "https://github.com/abidev2003/ecommerce-react-ssd/blob/main/ecommerce-backend-ai-main/routes/products.js"
-click node_backend_routes_cart "https://github.com/abidev2003/ecommerce-react-ssd/blob/main/ecommerce-backend-ai-main/routes/cartItems.js"
-click node_backend_routes_delivery "https://github.com/abidev2003/ecommerce-react-ssd/blob/main/ecommerce-backend-ai-main/routes/deliveryOptions.js"
-click node_backend_routes_orders "https://github.com/abidev2003/ecommerce-react-ssd/blob/main/ecommerce-backend-ai-main/routes/orders.js"
-click node_backend_routes_summary "https://github.com/abidev2003/ecommerce-react-ssd/blob/main/ecommerce-backend-ai-main/routes/paymentSummary.js"
-click node_backend_routes_reset "https://github.com/abidev2003/ecommerce-react-ssd/blob/main/ecommerce-backend-ai-main/routes/reset.js"
-click node_backend_models "https://github.com/abidev2003/ecommerce-react-ssd/blob/main/ecommerce-backend-ai-main/models/index.js"
-click node_backend_defaults "https://github.com/abidev2003/ecommerce-react-ssd/tree/main/ecommerce-backend-ai-main/defaultData"
-click node_backend_state "https://github.com/abidev2003/ecommerce-react-ssd/tree/main/ecommerce-backend-ai-main/backend"
-click node_backend_images "https://github.com/abidev2003/ecommerce-react-ssd/tree/main/ecommerce-backend-ai-main/images"
-click node_frontend_app "https://github.com/abidev2003/ecommerce-react-ssd/blob/main/ecommerce-project/src/App.tsx"
-click node_frontend_header "https://github.com/abidev2003/ecommerce-react-ssd/blob/main/ecommerce-project/src/components/Header.tsx"
-click node_frontend_home "https://github.com/abidev2003/ecommerce-react-ssd/blob/main/ecommerce-project/src/pages/home/HomePage.jsx"
-click node_frontend_checkout "https://github.com/abidev2003/ecommerce-react-ssd/blob/main/ecommerce-project/src/pages/checkout/CheckoutPage.jsx"
-click node_frontend_orders "https://github.com/abidev2003/ecommerce-react-ssd/blob/main/ecommerce-project/src/pages/orders/OrdersPage.jsx"
-click node_frontend_tracking "https://github.com/abidev2003/ecommerce-react-ssd/blob/main/ecommerce-project/src/pages/TrackingPage.jsx"
-click node_frontend_money "https://github.com/abidev2003/ecommerce-react-ssd/blob/main/ecommerce-project/src/utils/money.ts"
-click node_frontend_public_images "https://github.com/abidev2003/ecommerce-react-ssd/tree/main/ecommerce-project/public/images"
-click node_legacy_app "https://github.com/abidev2003/ecommerce-react-ssd/blob/main/old-projects/ecommerce-project-js/src/App.jsx"
-click node_legacy_pages "https://github.com/abidev2003/ecommerce-react-ssd/tree/main/old-projects/ecommerce-project-js/src/pages"
-click node_legacy_money "https://github.com/abidev2003/ecommerce-react-ssd/blob/main/old-projects/ecommerce-project-js/src/utils/money.js"
+classDef backend fill:#111827,stroke:#60a5fa,color:#ffffff,stroke-width:2px;
+classDef frontend fill:#111827,stroke:#f59e0b,color:#ffffff,stroke-width:2px;
+classDef legacy fill:#111827,stroke:#10b981,color:#ffffff,stroke-width:2px;
 
-classDef toneNeutral fill:#f8fafc,stroke:#334155,stroke-width:1.5px,color:#0f172a
-classDef toneBlue fill:#dbeafe,stroke:#2563eb,stroke-width:1.5px,color:#172554
-classDef toneAmber fill:#fef3c7,stroke:#d97706,stroke-width:1.5px,color:#78350f
-classDef toneMint fill:#dcfce7,stroke:#16a34a,stroke-width:1.5px,color:#14532d
-classDef toneRose fill:#ffe4e6,stroke:#e11d48,stroke-width:1.5px,color:#881337
-classDef toneIndigo fill:#e0e7ff,stroke:#4f46e5,stroke-width:1.5px,color:#312e81
-classDef toneTeal fill:#ccfbf1,stroke:#0f766e,stroke-width:1.5px,color:#134e4a
-class node_backend_server,node_backend_routes_products,node_backend_routes_cart,node_backend_routes_delivery,node_backend_routes_orders,node_backend_routes_summary,node_backend_routes_reset,node_backend_models,node_backend_defaults,node_backend_state,node_backend_images toneBlue
-class node_frontend_app,node_frontend_header,node_frontend_home,node_frontend_checkout,node_frontend_orders,node_frontend_tracking,node_frontend_money,node_frontend_public_images toneAmber
-class node_legacy_app,node_legacy_pages,node_legacy_money toneMint
+class node_backend_server,node_backend_routes_products,node_backend_routes_cart,node_backend_routes_delivery,node_backend_routes_orders,node_backend_routes_summary,node_backend_routes_reset,node_backend_models,node_backend_defaults,node_backend_state,node_backend_images backend;
+
+class node_frontend_app,node_frontend_header,node_frontend_home,node_frontend_checkout,node_frontend_orders,node_frontend_tracking,node_frontend_money,node_frontend_public_images frontend;
+
+class node_legacy_app,node_legacy_pages,node_legacy_money legacy;
 ```
 
 ---
